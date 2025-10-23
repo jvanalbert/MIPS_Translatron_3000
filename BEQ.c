@@ -68,11 +68,11 @@ void beq_immd_assm(void) {
 	// Set the opcode
 	setBits_str(31, "000100");
 
-	// set Rt
-	setBits_num(20, PARAM1.value, 5);
-
 	// set Rs
-	setBits_num(25, PARAM2.value, 5);
+	setBits_num(25, PARAM1.value, 5); //rs needs to be in bits 25-21(changed by Gabriella)
+
+	// set Rt
+	setBits_num(20, PARAM2.value, 5); //rt needs to be in bits 20-16(changed by Gabriella)
 
 	// set offset
 	setBits_num(15, PARAM3.value, 16);
@@ -87,7 +87,7 @@ void beq_immd_bin(void) {
 		//  any x will be skipped
 		// ignore previous instructions, the only bug is Rt and Rs swapped
 		// If the manual shows (0), then the value of that bit doesnt matter
-	if (checkBits(31, "001000") != 0) {
+	if (checkBits(31, "000100") != 0) { //opcode for BEQ is 000100(chnanged by Gabriella)
 		state = WRONG_COMMAND;
 		return;
 	}
@@ -109,8 +109,8 @@ void beq_immd_bin(void) {
 	setOp("BEQ");
 	//setCond_num(cond);
 	//setParam(param_num, param_type, param_value)
-	setParam(1, REGISTER, Rt); // destination
-	setParam(2, REGISTER, Rs); // source register operand
+	setParam(1, REGISTER, Rs); // destination (changed to Rs by Gabriella)
+	setParam(2, REGISTER, Rt); // source register operand (changed to Rt by Gabriella)
 	setParam(3, IMMEDIATE, offset); // immediate operand
 
 	// tell the system the decoding is done
