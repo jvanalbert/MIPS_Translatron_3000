@@ -33,10 +33,11 @@ void div_reg_assm(void) {
 
 	// create binary
 	setBits_str(31, "000000");
-	setBits_num(20, PARAM1.value, 5);
-	setBits_num(25, PARAM2.value, 5);
+	setBits_num(25, PARAM1.value, 5); //changed for rs to get bits 25-21(changed by Gabriella)
+	setBits_num(20, PARAM2.value, 5); //changed for rt to get bits 20-16(changed by Gabriella)
+	setBits_num(15, 0, 10); //switched order of rd and shamt to match div format(changed by Gabriella)
 	setBits_str(5, "011010");
-	setBits_num(15, 0, 10);
+	
 	
 	state = COMPLETE_ENCODE;
 }
@@ -52,8 +53,8 @@ void div_reg_bin(void) {
 	uint32_t Rt = getBits(20, 5);
 
 	setOp("DIV");
-	setParam(2, REGISTER, Rs);
-	setParam(1, REGISTER, Rt);
+	setParam(1, REGISTER, Rs); //switched registers to match div format(changed by Gabriella)
+	setParam(2, REGISTER, Rt); //switched registers to match div format(changed by Gabriella)
 
 	state = COMPLETE_DECODE;
 }

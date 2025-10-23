@@ -63,17 +63,21 @@ void and_reg_assm(void) {
 	// Set the opcode
 	setBits_num(31, 0, 6);
 
-	// Set the funct 
-	setBits_str(5, "100100");
-
-	// set Rd
-	setBits_num(25, PARAM1.value, 5);
 
 	// set Rs
-	setBits_num(15, PARAM2.value, 5);
+	setBits_num(25, PARAM2.value, 5); //rs needs to be in bits 25-21(changed by Gabriella)
 
 	// set Rt
 	setBits_num(20, PARAM3.value, 5);
+
+	// set Rd
+	setBits_num(15, PARAM1.value, 5); //rd needs to be in bits 15-11(changed by Gabriella)
+
+	//shamt needs to be 0
+	setBits_num(10, 0, 5); //changed by Gabriella
+
+	// Set the funct 
+	setBits_str(5, "100100"); //order needed changed(changed by Gabriella)
 
 	// tell the system the encoding is done
 	state = COMPLETE_ENCODE;
@@ -95,9 +99,10 @@ void and_reg_bin(void) {
 		Finding values in the binary
 	*/
 	// getBits(start_bit, width)
-	uint32_t Rd = getBits(15, 5);
-	uint32_t Rs = getBits(25, 5);
-	uint32_t Rt = getBits(20, 5);
+	uint32_t Rs = getBits(25, 5); //changed order by Gabriella
+	uint32_t Rt = getBits(20, 5); //changed order by Gabriella
+	uint32_t Rd = getBits(15, 5); //changed order by Gabriella
+	
 
 
 	/*
