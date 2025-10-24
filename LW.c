@@ -1,6 +1,7 @@
 #include "Instruction.h"
 
 void lw_immd_assm(void) {
+	//check to make sure op code matches
 	if (strcmp(OP_CODE, "LW") != 0) {
 
 		state = WRONG_COMMAND;
@@ -33,8 +34,8 @@ void lw_immd_assm(void) {
 		state = INVALID_REG;
 		return;
 	}
-	//register 2 
-	if ( PARAM2.value > 0x7FFF) {
+	//Changed: Immediate should be 16-bit signed value (-32768 to 32767)
+	if ( PARAM2.value < -32768 || PARAM2.value > 32767) {
 		state = INVALID_IMMED;
 		return;
 	}
@@ -58,9 +59,11 @@ void lw_immd_bin(void) {
 		return;
 	}
 
+	//uint32_t is an unsigned 32-bit integer but immediate can be negative, need to cast type
 	uint32_t Rs = getBits(25, 5);
 	uint32_t Rt = getBits(20, 5);
-	uint32_t imm16 = getBits(15, 16);
+	//without the cast, -4 would be interpreted as 65532
+	int32_t imm16 = (int32_t)getBits(15, 16);
 
 	setOp("LW");
 	setParam(1, REGISTER, Rt);
