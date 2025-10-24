@@ -35,10 +35,12 @@ void or_reg_assm(void) {
 	}
 
 	setBits_num(31, 0, 6);
-	setBits_str(5, "100101");
-	setBits_num(15, PARAM1.value, 5);
-	setBits_num(25, PARAM2.value, 5);
-	setBits_num(20, PARAM3.value, 5);
+	
+	setBits_num(25, PARAM2.value, 5); //sets rs (changed by Gabby)
+	setBits_num(20, PARAM3.value, 5); //sets rt (changed by Gabby)
+	setBits_num(15, PARAM1.value, 5); //sets rd (changed by Gabby)
+	setBits_num(10, 0, 5); //sets the shamt to zero (changed by Gabby)
+	setBits_str(5, "100101"); //function needs to be at the end(changed by Gabby)
 
 	state = COMPLETE_ENCODE;
 }
