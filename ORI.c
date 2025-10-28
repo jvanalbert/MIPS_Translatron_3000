@@ -73,18 +73,18 @@ void ori_immd_bin(void) {
 
 	//verifies the instructions opcode bits so they match ORI
 	//if not it is the wrong instruction and returns
-	if(!checkBits(31, "001101"))
+	if(checkBits(31, "001101")!=0)
 	{
 		state = WRONG_COMMAND;
 		return; 
 	}
 
 	//Extract bits [25–21] → source register (rs)
-	uint32_t rs = getBits_num(25, 5);
+	uint32_t rs = getBits(25, 5);
 	//Extract bits [20–16] → target register (rt)
-	uint32_t rt = getBits_num(20, 5);
+	uint32_t rt = getBits(20, 5);
 	//Extract bits [15–0] → immediate constant
-	uint32_t immediate = getBits_num(15, 16);
+	uint32_t immediate = getBits(15, 16);
 
 	// Set the operation to "ORI"
 	setOp("ORI");
