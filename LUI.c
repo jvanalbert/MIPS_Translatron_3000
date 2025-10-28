@@ -19,7 +19,7 @@ void lui_immd_assm(void) {
 		return;
 	}
 	if (PARAM2.type != IMMEDIATE) {
-		state = MISSING_IMMED;
+		state = INVALID_PARAM; 
 		return;
 	}
 
