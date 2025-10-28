@@ -43,13 +43,13 @@ void beq_immd_assm(void) {
 		Checking the value of parameters
 	*/
 
-	// Rt should be 31 or less
+	// Rs should be 31 or less
 	if (PARAM1.value > 31) {
 		state = INVALID_REG;
 		return;
 	}
 
-	// Rs should be 31 or less
+	// Rt should be 31 or less
 	if (PARAM2.value > 31) {
 		state = INVALID_REG;
 		return;
@@ -87,7 +87,7 @@ void beq_immd_bin(void) {
 		//  any x will be skipped
 		// ignore previous instructions, the only bug is Rt and Rs swapped
 		// If the manual shows (0), then the value of that bit doesnt matter
-	if (checkBits(31, "000100") != 0) { //opcode for BEQ is 000100(chnanged by Gabriella)
+	if (checkBits(31, "000100") != 0) { //opcode for BEQ is 000100(changed by Gabriella)
 		state = WRONG_COMMAND;
 		return;
 	}
