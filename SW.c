@@ -20,18 +20,16 @@ void sw_immd_assm(void) {
 		state = INVALID_PARAM;
 		return;
 	}
-
 	if (PARAM3.type != REGISTER) {
 		state = MISSING_REG;
 		return;
 	}
-
 	if (PARAM1.value > 31) {
 		state = INVALID_REG;
 		return;
 	}
-
-	if (PARAM2.value > 0xFFFF) {
+	// changed: Immediate should be 16-bit signed value (-32768 to 32767)
+	if (PARAM2.value < -32768 || PARAM2.value > 32767) {
 		state = INVALID_IMMED;
 		return;
 	}
@@ -39,35 +37,28 @@ void sw_immd_assm(void) {
 		state = INVALID_REG;
 		return;
 	}
-
-	// setBits_str(31, "101010");
-	// setBits_num(15, PARAM1.value, 5);
-	// setBits_num(25, PARAM2.value, 16);
-	// setBits_num(20, PARAM3.value, 5);
-
-	setBits_str(31, "101011");
-	setBits_num(20, PARAM1.value, 5);
-	setBits_num(15, PARAM2.value, 16);
-	setBits_num(25, PARAM3.value, 5);
+	// Correct bit positions for SW: opcode (31-26), base (25-21), rt (20-16), offset (15-0)
+	setBits_str(31, "101011"); // opcode for SW
+	setBits_num(25, PARAM3.value, 5); // base register
+	setBits_num(20, PARAM1.value, 5); // rt (source register)
+	setBits_num(15, PARAM2.value, 16); // offset
 
 	state = COMPLETE_ENCODE;
 }
 
 void sw_immd_bin(void) {
-
 	if (checkBits(31, "101011") != 0) {
 		state = WRONG_COMMAND;
 		return;
 	}
-
-	uint32_t Rs = getBits(25, 5);
-	uint32_t Rt = getBits(20, 5);
-	uint32_t offset = getBits(15, 16);
+	uint32_t base = getBits(25, 5);
+	uint32_t rt = getBits(20, 5);
+	int32_t offset = (int32_t)getBits(15, 16); // signed offset
 
 	setOp("SW");
-	setParam(1, REGISTER, Rt); 
-	setParam(2, REGISTER, Rs); 
-	setParam(3, IMMEDIATE, offset); 
+	setParam(1, REGISTER, rt); // source register
+	setParam(2, IMMEDIATE, offset); // offset
+	setParam(3, REGISTER, base); // base register
 
 	state = COMPLETE_DECODE;
 }
