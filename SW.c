@@ -37,11 +37,11 @@ void sw_immd_assm(void) {
 		state = INVALID_REG;
 		return;
 	}
-	// Correct bit positions for SW: opcode (31-26), base (25-21), rt (20-16), offset (15-0)
+	// encode instruction
 	setBits_str(31, "101011"); // opcode for SW
-	setBits_num(25, PARAM3.value, 5); // base register
-	setBits_num(20, PARAM1.value, 5); // rt (source register)
-	setBits_num(15, PARAM2.value, 16); // offset
+	setBits_num(20, PARAM1.value, 5);
+	setBits_num(25, PARAM3.value, 5);
+	setBits_num(15, PARAM2.value, 16);
 
 	state = COMPLETE_ENCODE;
 }
